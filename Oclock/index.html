@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oclock</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgb(24, 28, 85);
+            background: linear-gradient(90deg, rgba(24, 28, 85, 1) 0%, rgba(0, 0, 0, 1) 100%);
+        }
+
+        .shape {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            z-index: -1;
+            position: absolute;
+            top: 200px;
+            left: 450px;
+        }
+
+        .shape1 {
+            width: 300px;
+            height: 300px;
+            background-color: blue;
+            z-index: -1;
+            position: absolute;
+            top: 400px;
+            right: 300px;
+            border-radius: 25% 15% 0% 2%;
+            -webkit-border-radius: 25% 15% 0% 2%;
+            -moz-border-radius: 25% 15% 0% 2%;
+            -ms-border-radius: 25% 15% 0% 2%;
+            -o-border-radius: 25% 15% 0% 2%;
+        }
+
+        .container {
+            color: white;
+            font-size: 150px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            backdrop-filter: blur(15px);
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shape"></div>
+    <div class="shape1"></div>
+    <div class="container">00:00:00</div>
+    <script>
+        let oclock = document.querySelector(".container");
+        setInterval(() => {
+            let currTime = new Date();
+            oclock.innerHTML = `${String(currTime.getHours()).padStart(2, '0')}:${String(currTime.getMinutes()).padStart(2, '0')}:${String(currTime.getSeconds()).padStart(2, '0')}`;
+        }, 1000);
+
+    </script>
+</body>
+
+</html>
