@@ -26,19 +26,44 @@
 {
 id:1,
 desc: "task description",
-taskCompleted:true ,
+state: "task state if completed or no",
 }
 */
 
-let tasks=[];
 
+// init the const key and the array
+const TASKS_KEY = "TASKS";
+let tasks = [];
 
+// check if the local storage have tasks array or not
+const storedTasks = localStorage.getItem(TASKS_KEY);
+if (storedTasks) {
+    tasks = JSON.parse(storedTasks);
+} else {
+    localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
+}
+
+// function to update the array in localStorage
+const updateLocalStorage = () => {
+    localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
+};
+
+//function to update "tasks" array 
+const updateTasks = () => {
+    const storedTasks = localStorage.getItem(TASKS_KEY);
+    if (storedTasks) {
+        tasks = JSON.parse(storedTasks);
+    }
+};
+
+// function to check the entered value and return the value if it true
 const input = ()=>{
     const choice =parseInt(prompt("Please Enter Your Choice :"));       
     if(isNaN(choice)||+choice>7||+choice <1)return "Invalid Value! , Try Again " ; 
     else return choice;
 };
 
+// to print the Actions list 
 const printActionList=()=>{
     console.log(`
 Task Manger Menu :
@@ -51,20 +76,23 @@ Task Manger Menu :
 7- Exit
     `)
 };
+
+// to show the tasks
 const showTasks=()=>{
+    updateTasks();
     if(tasks.length===0) console.log("No Tasks");
     else tasks.forEach((task,index)=>console.log(`${index+1} - ${task.desc} [${task.completed?"Completed":"Not Completed"}]`))  
 };
 
-
+// to add tast
 const addTask=()=>{
     const newTask=prompt("Enter Task Description");
-    tasks.push({desc:newTask,Completed:false})
+    tasks.push({desc:newTask,Completed:false});
+    updateLocalStorage();
     console.log("Task Added");
-    
 };
 
-
+// to edit on tasks state
 const toggleTask=()=>{
     const taskId=parseInt(prompt("Enter Task id To Update"))-1;
    if(tasks[taskId]){
@@ -73,9 +101,10 @@ const toggleTask=()=>{
    else{
        console.log("Task Not Found");
    }
+   updateLocalStorage();
 };
 
-
+// to edit on tast description
 const editTask=()=>{
     const taskId=parseInt(prompt("Enter Task id To Update"))-1;
     if(tasks[taskId])
@@ -87,8 +116,10 @@ const editTask=()=>{
     {
         console.log('Task Not Found');
     }
+    updateLocalStorage();
 };
 
+// to delete the task
 const deleteTask=()=>{
     const taskId=parseInt(prompt("Enter Task id To Delete"))-1;
     if (tasks[taskId]) {
@@ -97,8 +128,12 @@ const deleteTask=()=>{
     } else {
         console.log('Task not found.');
     }
+    updateLocalStorage();
 };
+
+// to search in tasks using term
 const search=()=>{
+    updateTasks();
     const term = prompt("Enter Search Term");
     const res=tasks.filter((task)=>task.desc.toLowerCase().includes(term.toLowerCase()));
     if(res.length){
@@ -107,10 +142,8 @@ const search=()=>{
         });
     }else{
         console.log("No Tasks Found");
-        
     }
 };
-
 
 
 let actionNum=0;
